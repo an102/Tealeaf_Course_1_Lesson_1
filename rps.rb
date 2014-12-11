@@ -1,18 +1,21 @@
 # rps.ruby
 
 def shoot(user, comp)
-  puts "\nYou: #{user.upcase}\nComputer: #{comp.upcase}\n"
+  puts "\nYou: #{user.upcase}\nComputer: #{comp.upcase}"
 end
 
 def declare_user_loser(user, comp)
-  puts "#{comp.capitalize} beats #{user}! You lose!! Loser!!"
+  shoot(user, comp)
+  puts "\n#{comp.capitalize} beats #{user}! You lose!! Loser!!"
 end
 
 def declare_user_winner(user, comp)
-  puts "Well hot dog! We have a wiener! #{user.capitalize} beats #{comp}!"
+  shoot(user, comp)
+  puts "\nWell hot dog! We have a wiener! #{user.capitalize} beats #{comp}!"
 end
   
-def declare_draw
+def declare_draw(user, comp)
+  shoot(user, comp)
   puts "\nIt's a draw! Think fast!"
 end
 
@@ -23,13 +26,13 @@ puts "\nRock, paper, scissors time! Let's get down to business, shall we?"
 loop do
 
   user_choice = ''
-  comupter_choice = ''
+  computer_choice = ''
   puts ''
   
   loop do
     puts "Choose your weapon!\nr = rock    p = paper    s = scissors"
     user_choice = gets.chomp.downcase
-    comupter_choice = CHOICES.sample
+    computer_choice = CHOICES.sample
     break if ['rock', 'paper', 'scissors', 'r', 'p', 's'].include?(user_choice)
     print "\nLet's try again. " 
   end
@@ -45,24 +48,24 @@ loop do
     user_choice = 'paper'
   end
   
-  if (user_choice == 'rock' && comupter_choice == 'paper') ||
-     (user_choice == 'scissors' && comupter_choice == 'rock') ||
-     (user_choice == 'paper' && comupter_choice == 'scissors')
-    shoot(user_choice, comupter_choice)
-    declare_user_loser(user_choice, comupter_choice)
-  elsif (user_choice == 'rock' && comupter_choice == 'scissors') ||
-        (user_choice == 'scissors' && comupter_choice == 'paper') ||
-        (user_choice == 'paper' && comupter_choice == 'rock')
-    shoot(user_choice, comupter_choice)
-    declare_user_winner(user_choice, comupter_choice)
+  draw_not_detected = true
+  
+  if (user_choice == 'rock' && computer_choice == 'paper') ||
+     (user_choice == 'scissors' && computer_choice == 'rock') ||
+     (user_choice == 'paper' && computer_choice == 'scissors')
+    declare_user_loser(user_choice, computer_choice)
+  elsif (user_choice == 'rock' && computer_choice == 'scissors') ||
+        (user_choice == 'scissors' && computer_choice == 'paper') ||
+        (user_choice == 'paper' && computer_choice == 'rock')
+    declare_user_winner(user_choice, computer_choice)
   else
-    shoot(user_choice, comupter_choice)
-    declare_draw
+    declare_draw(user_choice, computer_choice)
+    draw_not_detected = false
   end
   
   new_game = ''
   
-  if user_choice != comupter_choice
+  if draw_not_detected
     begin 
       puts "\nGo again? (Y/N)"
       new_game = gets.chomp.downcase
