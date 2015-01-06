@@ -15,7 +15,10 @@ def deal_card(hand, holder)
   hand[dealt_card] = @deck.values_at(dealt_card)[0]
   pretotal = 0
   hand.values.each { |value| pretotal += value }
-  hand['A'] = 1 if hand.has_key?('A') && pretotal > 21
+  hand['A♠'] = 1 if hand.has_key?('A♠') && pretotal > 21
+  hand['A♥'] = 1 if hand.has_key?('A♥') && pretotal > 21
+  hand['A♦'] = 1 if hand.has_key?('A♦') && pretotal > 21
+  hand['A♣'] = 1 if hand.has_key?('A♣') && pretotal > 21
   total = 0
   hand.values.each { |value| total += value }
   if holder == 'Dealer'
@@ -52,7 +55,7 @@ end
 
 def player_blackjack
   return false unless @player_score == 21 && @player_hand.keys.count == 2
-  return true
+  true
 end
 
 welcome
